@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: my-app
+  namespace: argocd
+
+spec:
+  project: my-project
+
+  source:
+    repoURL: https://github.com/touhiddevops/manifests-repo
+    targetRevision: HEAD
+    path: k8s-manifests
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: myapp
+    
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+
